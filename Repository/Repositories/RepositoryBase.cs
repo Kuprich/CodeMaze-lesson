@@ -1,9 +1,9 @@
-﻿using Contracts;
+﻿using Contracts.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace Repository.Repositories;
 
-public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
+public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
     private readonly RepositoryContext _repositoryContext;
 
@@ -11,10 +11,10 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
     {
         _repositoryContext = repositoryContext;
     }
-    public void Create(T entity) => 
+    public void Create(T entity) =>
         _repositoryContext.Set<T>().Add(entity);
 
-    public void Delete(T entity) => 
+    public void Delete(T entity) =>
         _repositoryContext.Set<T>().Remove(entity);
     public void Update(T entity) =>
         _repositoryContext.Set<T>().Update(entity);

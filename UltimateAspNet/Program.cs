@@ -1,5 +1,5 @@
-using LoggerService;
 using NLog;
+using UltimateAspNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,7 @@ LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentD
 // Add services to the container.
 
 builder.Services.ConfigureLoggerService();
+builder.Services.ConfigureRepositoryManager();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
