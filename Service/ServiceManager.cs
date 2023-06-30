@@ -3,7 +3,7 @@ using Service.Contracts;
 
 namespace Service;
 
-internal class ServiceManager : IServiceManager
+public class ServiceManager : IServiceManager
 {
     public ServiceManager(IRepositoryManager repository, ILoggerManager logger)
     {
