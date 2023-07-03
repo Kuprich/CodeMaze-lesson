@@ -22,7 +22,7 @@ internal sealed class CompanyService : ICompanyService
         {
             var companies = _repository.Company.GetAllCompanies(trackChanges);
             var companiesDto = companies
-                .Select(c => new CompanyDto(c.CompanyId, c.Name, string.Join(' ', c.Country, c.Address)))
+                .Select(c => new CompanyDto(c.Id, c.Name, string.Join(' ', c.Country, c.Address)))
                 .ToList();
             return companiesDto;
         }

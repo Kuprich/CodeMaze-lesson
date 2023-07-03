@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
 public class Company
 {
-    public Guid CompanyId { get; set; }
+    [Column("CompanyId")]
+    public Guid Id { get; set; }
 
     [Required(ErrorMessage = "\"Company name\" is required field")]
     [MaxLength(60, ErrorMessage = "Maximum length for \"company name\" is 60 characters")]

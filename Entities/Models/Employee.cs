@@ -5,7 +5,8 @@ namespace Entities.Models;
 
 public class Employee
 {
-    public Guid EmployeeId { get; set; }
+    [Column("EmployeeId")]
+    public Guid Id { get; set; }
 
     [Required(ErrorMessage = "\"Employee name\" is required field")]
     [MaxLength(60, ErrorMessage = "Maximum length for \"Employee name\" is 60 characters")]
