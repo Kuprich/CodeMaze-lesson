@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{3ECAA0CE-3C7E-47C5-BF62-D9FD4F6DB226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{CA175E64-02A9-4D96-B1CB-679220D91E71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{CA175E64-02A9-4D96-B1CB-679220D91E71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{F1DC6D81-FD20-4728-935A-66133436D64E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{F1DC6D81-FD20-4728-935A-66133436D64E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UltimateAspNet.Presentation", "UltimateAspNet.Presentation\UltimateAspNet.Presentation.csproj", "{137315CD-CBBE-4EDE-BCB9-AC6EB98BF89E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{86646F69-D8CC-4798-A880-BEA18B881EEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{F1DC6D81-FD20-4728-935A-66133436D64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1DC6D81-FD20-4728-935A-66133436D64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1DC6D81-FD20-4728-935A-66133436D64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{137315CD-CBBE-4EDE-BCB9-AC6EB98BF89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{137315CD-CBBE-4EDE-BCB9-AC6EB98BF89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{137315CD-CBBE-4EDE-BCB9-AC6EB98BF89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{137315CD-CBBE-4EDE-BCB9-AC6EB98BF89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86646F69-D8CC-4798-A880-BEA18B881EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86646F69-D8CC-4798-A880-BEA18B881EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86646F69-D8CC-4798-A880-BEA18B881EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86646F69-D8CC-4798-A880-BEA18B881EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
