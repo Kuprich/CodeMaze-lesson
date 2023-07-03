@@ -1,5 +1,4 @@
 using NLog;
-using System.Reflection;
 using System.Reflection.Metadata;
 using UltimateAspNet;
 
@@ -14,6 +13,8 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
