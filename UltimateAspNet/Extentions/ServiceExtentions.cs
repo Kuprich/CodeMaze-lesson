@@ -5,7 +5,7 @@ using Repository;
 using Service;
 using Service.Contracts;
 
-namespace UltimateAspNet;
+namespace UltimateAspNet.Extentions;
 
 public static class ServiceExtentions
 {
