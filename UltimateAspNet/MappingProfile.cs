@@ -11,5 +11,7 @@ public class MappingProfile : Profile
         CreateMap<Company, CompanyDto>()
             .ForCtorParam(nameof(CompanyDto.FullAddress),
                        opt => opt.MapFrom(x => string.Concat(x.Country, " ", x.Address)));
+
+        CreateMap<Employee, EmployeeDto>();
     }
 }
