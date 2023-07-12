@@ -9,6 +9,11 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
     {
     }
 
+    public Employee? GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
+    {
+        return FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(employeeId), trackChanges).SingleOrDefault();
+    }
+
     public IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges)
     {
         return FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).ToList();
