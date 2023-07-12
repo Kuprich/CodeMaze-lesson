@@ -21,4 +21,7 @@ public static class ServiceExtentions
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddSqlServer<RepositoryContext>(configuration.GetConnectionString("sqlConnection"));
 
+    public static IMvcBuilder AddCustomCsvFormatter(this IMvcBuilder builder) => 
+        builder.AddMvcOptions(opt => opt.OutputFormatters.Add(new CsvOutputFormatter()));
+
 }

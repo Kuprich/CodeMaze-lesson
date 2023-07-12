@@ -20,8 +20,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
 })
     .AddXmlDataContractSerializerFormatters()
+    .AddCustomCsvFormatter()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
