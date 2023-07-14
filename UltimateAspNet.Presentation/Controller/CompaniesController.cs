@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransferObjects.Company;
 
 namespace UltimateAspNet.Presentation.Controller;
 
@@ -21,10 +22,21 @@ public class CompaniesController : ControllerBase
         return Ok(companies);
     }
 
-    [HttpGet("{id:guid}")]
-    public IActionResult GetCompanies(Guid id)
+    [HttpGet("{id:guid}", Name = nameof(GetCompany))]
+    public IActionResult GetCompany(Guid id)
     {
         var company = _serviceManager.CompanyService.GetCompany(id, trackChanges: false);
         return Ok(company);
+    }
+    
+    [HttpPost]
+    public IActionResult CreateCompany([FromBody]CompanyForCreationDto? companyForCreationDto)
+    {
+        if (companyForCreationDto == null)
+            return BadRequest($"{nameof(companyForCreationDto)} object is null.");
+
+        var companyDto = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
+
+        return CreatedAtRoute(nameof(GetCompany), new {companyDto.Id}, companyDto);
     }
 }
