@@ -1,6 +1,7 @@
-﻿namespace Shared.DataTransferObjects;
+﻿namespace Shared.DataTransferObjects.Employee;
 
-public record EmployeeDto {
+public record EmployeeDto
+{
     public Guid Id { get; init; }
     public string? Name { get; init; }
     public int Age { get; init; }

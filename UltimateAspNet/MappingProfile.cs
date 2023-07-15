@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Entities.Models;
-using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.Company;
+using Shared.DataTransferObjects.Employee;
 
 namespace UltimateAspNet;
 
@@ -16,5 +16,7 @@ public class MappingProfile : Profile
         CreateMap<CompanyForCreationDto, Company>();
 
         CreateMap<Employee, EmployeeDto>();
+
+        CreateMap<EmployeeForCreationDto, Employee>();
     }
 }

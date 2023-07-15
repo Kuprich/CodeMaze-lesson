@@ -1,4 +1,5 @@
 using Contracts;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using System.Reflection.Metadata;
 using UltimateAspNet.Extentions;
@@ -9,6 +10,11 @@ LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentD
 
 
 // Add services to the container.
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureLoggerService();
