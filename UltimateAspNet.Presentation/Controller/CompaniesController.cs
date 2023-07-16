@@ -19,6 +19,15 @@ public class CompaniesController : ControllerBase
     public IActionResult GetCompanies()
     {
         var companies = _serviceManager.CompanyService.GetAllCompanies(trackChanges: false);
+
+        return Ok(companies);
+    }
+
+    [HttpGet("collection/({ids})", Name = nameof(GetCompanies))]
+    public IActionResult GetCompanies(IEnumerable<Guid> ids)
+    {
+        var companies = _serviceManager.CompanyService.GetCompanies(ids, trackChanges: false);
+
         return Ok(companies);
     }
 
@@ -26,17 +35,28 @@ public class CompaniesController : ControllerBase
     public IActionResult GetCompany(Guid id)
     {
         var company = _serviceManager.CompanyService.GetCompany(id, trackChanges: false);
+
         return Ok(company);
     }
     
     [HttpPost]
-    public IActionResult CreateCompany([FromBody]CompanyForCreationDto? companyForCreationDto)
+    public IActionResult CreateCompany([FromBody]CompanyForCreationDto companyForCreationDto)
     {
-        if (companyForCreationDto == null)
-            return BadRequest($"{nameof(companyForCreationDto)} object is null.");
+        //if (companyForCreationDto == null)
+        //    return BadRequest($"{nameof(companyForCreationDto)} object is null.");
 
-        var companyDto = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
+        var company = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
-        return CreatedAtRoute(nameof(GetCompany), new {companyDto.Id}, companyDto);
+        return CreatedAtRoute(nameof(GetCompany), new {company.Id}, company);
+    }
+
+    [HttpPost("collection")]
+    public IActionResult CreateCompanies([FromBody] IEnumerable<CompanyForCreationDto> CompaniesForCreationDto)
+    {
+        var companies = _serviceManager.CompanyService.CreateCompanies(CompaniesForCreationDto);
+
+        var ids = companies.Select(company => company.Id).ToList();
+
+        return CreatedAtRoute(nameof(GetCompanies), ids, companies);
     }
 }

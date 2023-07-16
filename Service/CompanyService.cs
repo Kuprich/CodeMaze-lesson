@@ -22,6 +22,8 @@ internal sealed class CompanyService : ICompanyService
 
     public CompanyDto CreateCompany(CompanyForCreationDto companyForCreationDto)
     {
+        if (companyForCreationDto == null)
+            throw new CompanyBadRequestException();
         var company = _mapper.Map<Company>(companyForCreationDto);
 
         _repository.Company.CreateCompany(company);
@@ -30,12 +32,37 @@ internal sealed class CompanyService : ICompanyService
         return _mapper.Map<CompanyDto>(company);
     }
 
+    public IEnumerable<CompanyDto> CreateCompanies(IEnumerable<CompanyForCreationDto> companiesForCreationDto)
+    {
+        if (companiesForCreationDto == null)
+            throw new CompaniesBadRequestException();
+        var companies = _mapper.Map<IEnumerable<Company>>(companiesForCreationDto);
+        _repository.Company.CreateCompanies(companies);
+        _repository.Save();
+
+        return _mapper.Map<IEnumerable<CompanyDto>>(companies);
+    }
+
     public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges)
     {
         var companies = _repository.Company.GetAllCompanies(trackChanges);
         var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
         return companiesDto;
+    }
+
+    public IEnumerable<CompanyDto> GetCompanies(IEnumerable<Guid> ids, bool trackChanges)
+    {
+        if (ids == null)
+            throw new IdParametersBadRequestException();
+        
+
+        var companies =  _repository.Company.GetCompanies(ids, trackChanges);
+
+        if (ids.Count() != companies.Count())
+            throw new CollectionbyIdsBadRequestException();
+        
+        return _mapper.Map<IEnumerable<CompanyDto>>(companies);
     }
 
     public CompanyDto GetCompany(Guid companyId, bool trackChanges)

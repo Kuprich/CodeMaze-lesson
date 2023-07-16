@@ -1,3 +1,8 @@
-﻿namespace Shared.DataTransferObjects.Company;
+﻿using Shared.DataTransferObjects.Employee;
 
-public record CompanyForCreationDto(string? Name, string? Address, string? Country);
+namespace Shared.DataTransferObjects.Company;
+
+public record CompanyForCreationDto(string? Name,
+                                    string? Address,
+                                    string? Country,
+                                    IEnumerable<EmployeeForCreationDto> Employees);
