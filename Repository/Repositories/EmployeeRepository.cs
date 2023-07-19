@@ -6,8 +6,7 @@ namespace Repository.Repositories;
 public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
 {
     public EmployeeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-    {
-    }
+    { }
 
     public void CreateEmployee(Guid companyId, Employee employee)
     {
@@ -15,13 +14,12 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         Create(employee);
     }
 
-    public Employee? GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)
-    {
-        return FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(employeeId), trackChanges).SingleOrDefault();
-    }
+    public void DeleteEmployee(Guid companyId, Employee employee) 
+        => Delete(employee);
 
-    public IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges)
-    {
-        return FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).ToList();
-    }
+    public Employee? GetEmployee(Guid companyId, Guid employeeId, bool trackChanges) 
+        => FindByCondition(e => e.CompanyId.Equals(companyId) && e.Id.Equals(employeeId), trackChanges).SingleOrDefault();
+
+    public IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges) 
+        => FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).ToList();
 }

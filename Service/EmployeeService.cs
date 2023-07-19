@@ -20,7 +20,7 @@ internal sealed class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public EmployeeDto CreateEmployee(Guid companyId, EmployeeForCreationDto employeeForCreationDto, bool trackChanges)
+    public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreationDto, bool trackChanges)
     {
         if (_repository.Company.GetCompany(companyId, trackChanges) == null)
         {
@@ -33,6 +33,18 @@ internal sealed class EmployeeService : IEmployeeService
         _repository.Save();
 
         return _mapper.Map<EmployeeDto>(employee);
+    }
+
+    public void DeleteEmployeeForCompany(Guid companyId, Guid employeeId, bool trackChanges)
+    {
+        if (_repository.Company.GetCompany(companyId, trackChanges) == null)
+            throw new CompanyNotFoundException(companyId);
+
+        var employee = _repository.Employee.GetEmployee(companyId, employeeId, trackChanges) 
+            ?? throw new EmployeeNotFoundException(employeeId);
+
+        _repository.Employee.DeleteEmployee(companyId, employee);
+        _repository.Save();
     }
 
     public EmployeeDto GetEmployee(Guid companyId, Guid employeeId, bool trackChanges)

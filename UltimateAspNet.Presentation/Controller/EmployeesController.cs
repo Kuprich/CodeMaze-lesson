@@ -40,8 +40,15 @@ public class EmployeesController : ControllerBase
             return BadRequest($"{nameof(employeeForCreationDto)} object is null");
         }
 
-        var employeeDto = _serviceManager.EmployeeService.CreateEmployee(companyId, employeeForCreationDto, trackChanges: false);
+        var employeeDto = _serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employeeForCreationDto, trackChanges: false);
 
         return CreatedAtAction(nameof(GetEmployee), new { companyId, id = employeeDto.Id}, employeeDto);
+    }
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteEmployee(Guid companyid,  Guid id)
+    {
+        _serviceManager.EmployeeService.DeleteEmployeeForCompany(companyid, id, trackChanges: false);
+
+        return NoContent();
     }
 }
