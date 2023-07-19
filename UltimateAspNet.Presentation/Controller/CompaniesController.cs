@@ -43,9 +43,6 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public IActionResult CreateCompany([FromBody]CompanyForCreationDto companyForCreationDto)
     {
-        //if (companyForCreationDto == null)
-        //    return BadRequest($"{nameof(companyForCreationDto)} object is null.");
-
         var company = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
         return CreatedAtRoute(nameof(GetCompany), new {company.Id}, company);
@@ -59,5 +56,13 @@ public class CompaniesController : ControllerBase
         var ids = companies.Select(company => company.Id).ToList();
 
         return CreatedAtRoute(nameof(GetCompanies), ids, companies);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleleteCompany(Guid id)
+    {
+        _serviceManager.CompanyService.DeleteCompany(id, trackChanges: false);
+
+        return NoContent();
     }
 }
