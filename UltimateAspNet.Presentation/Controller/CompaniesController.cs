@@ -39,13 +39,13 @@ public class CompaniesController : ControllerBase
 
         return Ok(company);
     }
-    
+
     [HttpPost]
-    public IActionResult CreateCompany([FromBody]CompanyForCreationDto companyForCreationDto)
+    public IActionResult CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
     {
         var company = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
-        return CreatedAtRoute(nameof(GetCompany), new {company.Id}, company);
+        return CreatedAtRoute(nameof(GetCompany), new { company.Id }, company);
     }
 
     [HttpPost("collection")]
@@ -62,6 +62,14 @@ public class CompaniesController : ControllerBase
     public IActionResult DeleleteCompany(Guid id)
     {
         _serviceManager.CompanyService.DeleteCompany(id, trackChanges: false);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id:guid}")]
+    public IActionResult UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto companyForUpdateDto)
+    {
+        _serviceManager.CompanyService.UpdateCompany(id, companyForUpdateDto, trackChanges: true);
 
         return NoContent();
     }
