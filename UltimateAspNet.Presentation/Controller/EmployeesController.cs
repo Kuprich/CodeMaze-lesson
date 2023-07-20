@@ -44,10 +44,19 @@ public class EmployeesController : ControllerBase
 
         return CreatedAtAction(nameof(GetEmployee), new { companyId, id = employeeDto.Id}, employeeDto);
     }
+
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteEmployee(Guid companyid,  Guid id)
+    public IActionResult DeleteEmployee(Guid companyId,  Guid id)
     {
-        _serviceManager.EmployeeService.DeleteEmployeeForCompany(companyid, id, trackChanges: false);
+        _serviceManager.EmployeeService.DeleteEmployeeForCompany(companyId, id, trackChanges: false);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id:guid}")]
+    public IActionResult UpdateEmployee(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employeeForUpdateDto)
+    {
+        _serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, id, employeeForUpdateDto, false, true);
 
         return NoContent();
     }

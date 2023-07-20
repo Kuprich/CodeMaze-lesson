@@ -34,3 +34,9 @@ public class CompaniesBadRequestException : BadRequestException
     { }
 }
 
+public class EmployeeBadRequestException : BadRequestException
+{
+    public EmployeeBadRequestException() 
+        : base("Parameter Employee is null")
+    { }
+}
