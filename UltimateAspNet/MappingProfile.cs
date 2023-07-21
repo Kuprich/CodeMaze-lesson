@@ -14,9 +14,10 @@ public class MappingProfile : Profile
                        opt => opt.MapFrom(c => string.Concat(c.Country, " ", c.Address)));
 
         CreateMap<CompanyForCreationDto, Company>();
+        CreateMap<CompanyForUpdateDto, Company>();
 
         CreateMap<Employee, EmployeeDto>();
         CreateMap<EmployeeForCreationDto, Employee>();
-        CreateMap<EmployeeForUpdateDto, Employee>();
+        CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
     }
 }
