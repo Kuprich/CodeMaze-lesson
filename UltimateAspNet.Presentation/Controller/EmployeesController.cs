@@ -36,10 +36,12 @@ public class EmployeesController : ControllerBase
     public IActionResult CreateEmployee(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
     {
 
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         if (employeeForCreationDto == null)
-        {
             return BadRequest($"{nameof(employeeForCreationDto)} object is null");
-        }
+        
 
         var employeeDto = _serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employeeForCreationDto, trackChanges: false);
 
@@ -57,6 +59,9 @@ public class EmployeesController : ControllerBase
     [HttpPut("{id:guid}")]
     public IActionResult UpdateEmployee(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employeeForUpdateDto)
     {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         _serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, id, employeeForUpdateDto, false, true);
 
         return NoContent();

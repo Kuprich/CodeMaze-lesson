@@ -43,6 +43,9 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     public IActionResult CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
     {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         var company = _serviceManager.CompanyService.CreateCompany(companyForCreationDto);
 
         return CreatedAtRoute(nameof(GetCompany), new { company.Id }, company);
