@@ -1,5 +1,6 @@
 ﻿using Contracts.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Repository.Repositories;
 
@@ -34,9 +35,8 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
             : _repositoryContext.Set<T>().AsNoTracking();
 
 
-    public IQueryable<T> FindByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression, bool trackChanges = true) =>
+    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = true) =>
         trackChanges
             ? _repositoryContext.Set<T>().Where(expression)
             : _repositoryContext.Set<T>().Where(expression).AsNoTracking();
-
 }
