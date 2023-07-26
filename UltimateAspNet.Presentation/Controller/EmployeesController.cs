@@ -72,11 +72,16 @@ public class EmployeesController : ControllerBase
     {
         if (patchDoc == null) { return BadRequest("patchDoc object sent from client is null"); }
 
-        var result = _serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, companyTrackChanges: false, employeeTrackChanges: true);
+        var (employeeToPatch, employeeEntity) = _serviceManager.EmployeeService.GetEmployeeForPatch(companyId, id, companyTrackChanges: false, employeeTrackChanges: true);
 
-        patchDoc.ApplyTo(result.employeeToPatch);
+        patchDoc.ApplyTo(employeeToPatch, ModelState);
 
-        _serviceManager.EmployeeService.SaveChangesForPatch(result.employeeToPatch, result.employeeEntity);
+        TryValidateModel(ModelState);
+
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        _serviceManager.EmployeeService.SaveChangesForPatch(employeeToPatch, employeeEntity);
 
         return NoContent();
     }
