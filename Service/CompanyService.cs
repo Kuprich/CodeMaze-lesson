@@ -22,8 +22,6 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto companyForCreationDto)
     {
-        if (companyForCreationDto == null)
-            throw new CompanyBadRequestException();
         var company = _mapper.Map<Company>(companyForCreationDto);
 
         _repository.Company.CreateCompany(company);
@@ -34,8 +32,6 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task<IEnumerable<CompanyDto>> CreateCompaniesAsync(IEnumerable<CompanyForCreationDto> companiesForCreationDto)
     {
-        if (companiesForCreationDto == null)
-            throw new CompaniesBadRequestException();
         var companies = _mapper.Map<IEnumerable<Company>>(companiesForCreationDto);
         _repository.Company.CreateCompanies(companies);
         await _repository.SaveAsync();
@@ -55,7 +51,6 @@ internal sealed class CompanyService : ICompanyService
     {
         if (ids == null)
             throw new IdParametersBadRequestException();
-        
 
         var companies =  await _repository.Company.GetCompaniesAsync(ids, trackChanges);
 
@@ -88,9 +83,6 @@ internal sealed class CompanyService : ICompanyService
     {
         var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges)
             ?? throw new CompanyNotFoundException(companyId);
-
-        if (companyForUpdateDto == null)
-            throw new CompanyBadRequestException();
 
         _mapper.Map(companyForUpdateDto, company);
         await _repository.SaveAsync();

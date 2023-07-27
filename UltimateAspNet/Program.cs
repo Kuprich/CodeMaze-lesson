@@ -6,6 +6,7 @@ using NLog;
 using System.Reflection.Metadata;
 using UltimateAspNet;
 using UltimateAspNet.Extentions;
+using UltimateAspNet.Presentation.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,11 +42,11 @@ builder.Services.AddControllers(config =>
     .AddXmlDataContractSerializerFormatters()
     .AddCustomCsvFormatter()
     .AddApplicationPart(typeof(AssemblyReference).Assembly);
-  //  .AddNewtonsoftJson();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 var app = builder.Build();
 

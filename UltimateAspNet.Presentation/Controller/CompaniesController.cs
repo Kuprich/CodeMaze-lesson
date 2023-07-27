@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.Company;
+using UltimateAspNet.Presentation.ActionFilters;
 using UltimateAspNet.Presentation.ModelBinders;
 
 namespace UltimateAspNet.Presentation.Controller;
@@ -41,10 +42,11 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
     {
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
+        //if (!ModelState.IsValid)
+        //    return UnprocessableEntity(ModelState);
 
         var company = await _serviceManager.CompanyService.CreateCompanyAsync(companyForCreationDto);
 

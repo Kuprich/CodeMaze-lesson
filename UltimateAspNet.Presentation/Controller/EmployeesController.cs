@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.Employee;
+using UltimateAspNet.Presentation.ActionFilters;
 
 namespace UltimateAspNet.Presentation.Controller;
 
@@ -33,16 +34,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployee(Guid companyId, [FromBody] EmployeeForCreationDto employeeForCreationDto)
     {
-
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
-
-        if (employeeForCreationDto == null)
-            return BadRequest($"{nameof(employeeForCreationDto)} object is null");
-        
-
         var employeeDto = await _serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employeeForCreationDto, trackChanges: false);
 
         return CreatedAtAction(nameof(GetEmployee), new { companyId, id = employeeDto.Id}, employeeDto);
@@ -57,10 +51,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployee(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employeeForUpdateDto)
     {
-        if (!ModelState.IsValid)
-            return UnprocessableEntity(ModelState);
 
         await _serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, id, employeeForUpdateDto, false, true);
 
@@ -68,6 +61,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPatch("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> PartialyUpdateEmployee(Guid companyId, Guid id, [FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc)
     {
         if (patchDoc == null) { return BadRequest("patchDoc object sent from client is null"); }
