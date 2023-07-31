@@ -62,8 +62,7 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task<CompanyDto> GetCompanyAsync(Guid companyId, bool trackChanges)
     {
-        var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges)
-            ?? throw new CompanyNotFoundException(companyId);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges);
 
         var companyDto = _mapper.Map<CompanyDto>(company);
         
@@ -72,8 +71,7 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task DeleteCompanyAsync(Guid companyId, bool trackChanges)
     {
-        var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges)
-            ?? throw new CompanyNotFoundException(companyId);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges);
 
         _repository.Company.DeleteCompany(company);
         await _repository.SaveAsync();
@@ -81,12 +79,16 @@ internal sealed class CompanyService : ICompanyService
 
     public async Task UpdateCompanyAsync(Guid companyId, CompanyForUpdateDto companyForUpdateDto, bool trackChanges)
     {
-        var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges)
-            ?? throw new CompanyNotFoundException(companyId);
+        var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges);
 
         _mapper.Map(companyForUpdateDto, company);
         await _repository.SaveAsync();
     }
+
+    private async Task<Company> GetCompanyAndCheckIfItExistsAsync(Guid companyId, bool trackChanges) =>
+        await _repository.Company.GetCompanyAsync(companyId, trackChanges)
+            ?? throw new CompanyNotFoundException(companyId);
+    
 }
 
 

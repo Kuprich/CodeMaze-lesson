@@ -45,15 +45,13 @@ public class CompaniesController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto companyForCreationDto)
     {
-        //if (!ModelState.IsValid)
-        //    return UnprocessableEntity(ModelState);
-
         var company = await _serviceManager.CompanyService.CreateCompanyAsync(companyForCreationDto);
 
         return CreatedAtRoute(nameof(GetCompany), new { company.Id }, company);
     }
 
     [HttpPost("collection")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateCompanies([FromBody] IEnumerable<CompanyForCreationDto> CompaniesForCreationDto)
     {
         var companies = await _serviceManager.CompanyService.CreateCompaniesAsync(CompaniesForCreationDto);
@@ -72,6 +70,7 @@ public class CompaniesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto companyForUpdateDto)
     {
         await _serviceManager.CompanyService.UpdateCompanyAsync(id, companyForUpdateDto, trackChanges: true);
