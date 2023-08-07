@@ -65,14 +65,15 @@ internal sealed class EmployeeService : IEmployeeService
         return (employeeToPatch, employee);
     }
 
-    public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+    public async Task<PagedList<EmployeeDto>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
     {
         await CheckIfCompanyExist(companyId, trackChanges);
 
-        var employees = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
-        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+        var employeesPagedList = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
+        var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesPagedList);
 
-        return employeesDto;
+        return new PagedList<EmployeeDto>(employeesDto, employeesPagedList.MetaData);
+
     }
 
     public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)

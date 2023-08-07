@@ -1,6 +1,7 @@
 ﻿using Contracts.Repositories;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.Extensions;
 using Shared.RequestFeatures;
 
 namespace Repository.Repositories;
@@ -31,9 +32,15 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
             .Take(employeeParameters.PageSize)
             .ToList();
 
-    public async Task<IEnumerable<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
-        => await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
-            .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
-            .Take(employeeParameters.PageSize)
-            .ToListAsync();
+    public async Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+    {
+        var items = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
+            .ToPagedListAsync(employeeParameters.PageNumber, employeeParameters.PageSize);
+
+        return items;
+
+        //return PagedList<Employee>.ToPagedList(items, employeeParameters.PageNumber, employeeParameters.PageSize);
+    }
 }
+
+

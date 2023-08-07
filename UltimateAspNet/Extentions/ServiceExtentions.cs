@@ -24,4 +24,14 @@ public static class ServiceExtentions
     public static IMvcBuilder AddCustomCsvFormatter(this IMvcBuilder builder) => 
         builder.AddMvcOptions(opt => opt.OutputFormatters.Add(new CsvOutputFormatter()));
 
+    public static void CunfigureCors(this IServiceCollection services) =>
+        services.AddCors(options => 
+        {
+            options.AddPolicy("CorsPolicy", b =>
+                b.AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .WithExposedHeaders("X-Pagination"));
+        });
+
 }
