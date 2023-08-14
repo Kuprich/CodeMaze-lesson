@@ -12,7 +12,7 @@ public static class PagedListExtensions
            CancellationToken cancellationToken = default)
     {
 
-        var list = await source.Skip((pageSize - 1) * currentPage)
+        var list = await source.Skip((currentPage - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
 
