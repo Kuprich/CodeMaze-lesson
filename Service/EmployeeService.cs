@@ -69,6 +69,9 @@ internal sealed class EmployeeService : IEmployeeService
     {
         await CheckIfCompanyExist(companyId, trackChanges);
 
+        if (!employeeParameters.AgeIsValid)
+            throw new MaxAgeRangeBadRequestException();
+
         var employeesPagedList = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
         var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesPagedList);
 

@@ -1,4 +1,6 @@
-﻿namespace Entities.Exceptions;
+﻿using Entities.Exceptions;
+
+namespace Entities.Exceptions;
 
 public abstract class BadRequestException : Exception
 {
@@ -38,5 +40,12 @@ public class EmployeeBadRequestException : BadRequestException
 {
     public EmployeeBadRequestException() 
         : base("Parameter Employee is null")
+    { }
+}
+
+public class MaxAgeRangeBadRequestException : BadRequestException
+{
+    public MaxAgeRangeBadRequestException()
+        : base("Max age can't be less than min age")
     { }
 }
