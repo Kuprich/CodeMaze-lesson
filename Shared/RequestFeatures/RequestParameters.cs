@@ -14,6 +14,8 @@ public abstract class RequestParameters
             _pageSize = (value < _maxPageSize) ? value : _maxPageSize;
         }
     }
+
+    public string? OrderBy { get; set; }
 }
 
 

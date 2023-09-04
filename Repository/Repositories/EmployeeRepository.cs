@@ -37,6 +37,7 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             .FilterEmployeesByAge(employeeParameters.MinAge, employeeParameters.MaxAge)
             .SearchByName(employeeParameters.SearchTerm)
+            .Sort(employeeParameters.OrderBy)
             .ToPagedListAsync(employeeParameters.PageNumber, employeeParameters.PageSize);
 }
 
