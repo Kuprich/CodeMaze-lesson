@@ -5,18 +5,21 @@ using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects.Employee;
 using Shared.RequestFeatures;
+using System.Dynamic;
 
 namespace Service;
 
 internal sealed class EmployeeService : IEmployeeService
 {
     private readonly IRepositoryManager _repository;
+    private readonly IDataShaper<EmployeeDto> _dataShaper;
     private readonly ILoggerManager _manager;
     private readonly IMapper _mapper;
 
-    public EmployeeService(IRepositoryManager repository, ILoggerManager manager, IMapper mapper)
+    public EmployeeService(IRepositoryManager repository, IDataShaper<EmployeeDto> dataShaper, ILoggerManager manager, IMapper mapper)
     {
         _repository = repository;
+        _dataShaper = dataShaper;
         _manager = manager;
         _mapper = mapper;
     }
@@ -65,7 +68,7 @@ internal sealed class EmployeeService : IEmployeeService
         return (employeeToPatch, employee);
     }
 
-    public async Task<PagedList<EmployeeDto>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+    public async Task<PagedList<ExpandoObject>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
     {
         await CheckIfCompanyExist(companyId, trackChanges);
 
@@ -75,8 +78,9 @@ internal sealed class EmployeeService : IEmployeeService
         var employeesPagedList = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges);
         var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesPagedList);
 
-        return new PagedList<EmployeeDto>(employeesDto, employeesPagedList.MetaData);
+        var shapedData = _dataShaper.ShapeData(employeesDto, employeeParameters.Fields);
 
+        return new PagedList<ExpandoObject>(shapedData, employeesPagedList.MetaData);
     }
 
     public async Task SaveChangesForPatchAsync(EmployeeForUpdateDto employeeToPatch, Employee employeeEntity)

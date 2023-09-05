@@ -1,6 +1,9 @@
 using Contracts;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Service.DataShaping;
+using Shared.DataTransferObjects.Employee;
 using System.Reflection.Metadata;
 using UltimateAspNet;
 using UltimateAspNet.Extentions;
@@ -39,6 +42,8 @@ builder.Services.AddControllers(config =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
 
 var app = builder.Build();
 
